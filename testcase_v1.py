@@ -2,6 +2,9 @@ import multiprocessing
 import random
 import time
 import pymysql
+import os
+import threading
+from datetime import datetime
 
 # --- Configuration ---
 DB_CONFIG = {
@@ -18,12 +21,62 @@ BATCH_SIZE = 150 # the number of values in the query
 # Print a progress update every N queries.
 REPORT_INTERVAL = 10000
 
+# Directory to store periodic SHOW GLOBAL STATUS dumps (one subfolder per run)
+STATUS_OUTPUT_BASEDIR = os.path.join(os.path.dirname(__file__), "status_results")
+# Interval (seconds) between SHOW GLOBAL STATUS snapshots
+STATUS_INTERVAL_SECONDS = 10
+
+def _ensure_dir(path):
+    os.makedirs(path, exist_ok=True)
+
 def safe_print(lock, message):
     """
     A process-safe print function that uses a shared lock.
     """
     with lock:
         print(message, flush=True)
+
+
+# Background thread to collect SHOW GLOBAL STATUS periodically
+def collect_global_status_periodically(dump_dir, interval_seconds, stop_event, print_lock):
+    """
+    Connects to MySQL and appends SHOW GLOBAL STATUS snapshots to a file
+    every `interval_seconds` seconds until `stop_event` is set.
+    """
+    _ensure_dir(dump_dir)
+    out_path = os.path.join(dump_dir, "global_status.log")
+    conn = None
+    try:
+        conn = pymysql.connect(**DB_CONFIG)
+        safe_print(print_lock, f"[StatusCollector] Writing to {out_path} (every {interval_seconds}s)")
+        with open(out_path, "a", encoding="utf-8") as fh:
+            while not stop_event.is_set():
+                ts = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+                try:
+                    cur = conn.cursor()
+                    cur.execute("SHOW GLOBAL STATUS")
+                    rows = cur.fetchall()  # list[(name, value)]
+                    cur.close()
+                except Exception as e:
+                    safe_print(print_lock, f"[StatusCollector] Error collecting status: {e}")
+                    # Back off a bit before next try
+                    if stop_event.wait(interval_seconds):
+                        break
+                    continue
+
+                # Write timestamp and snapshot
+                fh.write(ts + "\n")
+                for name, value in rows:
+                    fh.write(f"{name}\t{value}\n")
+                fh.write("\n")
+                fh.flush()
+
+                if stop_event.wait(interval_seconds):
+                    break
+    finally:
+        if conn:
+            conn.close()
+            safe_print(print_lock, "[StatusCollector] Connection closed.")
 
 # 1. The function to gather all in_values (run by the main process)
 def gather_all_in_values():
@@ -110,6 +163,11 @@ if __name__ == "__main__":
     all_in_values = gather_all_in_values()
     print("--- Step 1 Complete ---\n")
 
+    # Prepare status dump directory for this run and start the collector thread
+    run_stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    status_run_dir = os.path.join(STATUS_OUTPUT_BASEDIR, run_stamp)
+    stop_event = threading.Event()
+
     if not all_in_values:
         print("No data_ids found. Exiting.")
         exit()
@@ -119,6 +177,13 @@ if __name__ == "__main__":
     
     # Create a lock to be shared among processes for safe printing
     lock = multiprocessing.Lock()
+
+    status_thread = threading.Thread(
+        target=collect_global_status_periodically,
+        args=(status_run_dir, STATUS_INTERVAL_SECONDS, stop_event, lock),
+        daemon=True,
+    )
+    status_thread.start()
     
     worker_processes = []
     for i in range(NUM_WORKER_PROCESSES):
@@ -135,3 +200,7 @@ if __name__ == "__main__":
         process.join()
 
     print("\n--- All worker processes have finished their loops. ---")
+
+    # Signal the status collector to stop and wait for it to finish
+    stop_event.set()
+    status_thread.join(timeout=10)
