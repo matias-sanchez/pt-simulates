@@ -15,7 +15,7 @@ DB_CONFIG = {
 NUM_WORKER_PROCESSES = 20  
 BATCH_SIZE = 150 # the number of values in the query
 
-NUM_QUERIES_PER_PROCESS = 1_000_000
+NUM_QUERIES_PER_PROCESS = 1000000
 # Print a progress update every N queries.
 REPORT_INTERVAL = 10000
 
