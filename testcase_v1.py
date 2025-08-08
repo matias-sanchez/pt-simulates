@@ -1,7 +1,7 @@
 import multiprocessing
 import random
 import time
-import mysql.connector
+import pymysql
 
 # --- Configuration ---
 DB_CONFIG = {
@@ -33,16 +33,16 @@ def gather_all_in_values():
     in_values = []
     conn = None
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
+        conn = pymysql.connect(**DB_CONFIG)
         cursor = conn.cursor()
         cursor.execute("select distinct channel_id from channels_members;")
         in_values = [row[0] for row in cursor.fetchall()]
         cursor.close()
         print(f"[Main Process] Finished. Found {len(in_values)} total channel_id.")
-    except mysql.connector.Error as err:
+    except pymysql.MySQLError as err:
         print(f"[Main Process] Error: {err}")
     finally:
-        if conn and conn.is_connected():
+        if conn:
             conn.close()
             print("[Main Process] Connection closed.")
     return in_values
@@ -62,7 +62,7 @@ def worker_query_data(process_id, in_values, print_lock):
 
     try:
         # Each process establishes its own connection to the database
-        conn = mysql.connector.connect(**DB_CONFIG)
+        conn = pymysql.connect(**DB_CONFIG)
         safe_print(print_lock, f"[Worker {process_id}] Connection established.")
 
         # Main loop to run the query repeatedly
@@ -70,7 +70,7 @@ def worker_query_data(process_id, in_values, print_lock):
             # 3. generate the random value in query
             random_values = random.sample(in_values, BATCH_SIZE)
 
-            # The placeholder for mysql-connector is %s
+            # The placeholder for PyMySQL is %s
             placeholders = ', '.join(['%s'] * len(random_values))
             # Using the query from your script
             query = f"SELECT user_id, channel_id, channel_team_id, date_joined, date_deleted, last_read, last_read_abs, is_open, channel_type, channel_privacy_type, share_type, target_user_id, target_user_team_id, is_target_user_deleted, user_team_id, is_starred, latest_counted_ts, latest_event_ts, history_invalid_ts, max_invalid_message_ts, date_archived FROM channels_members WHERE channel_id IN ({placeholders}) and date_deleted = 0 and channel_type = 0 limit 10000, 1"
@@ -84,13 +84,13 @@ def worker_query_data(process_id, in_values, print_lock):
             if (i + 1) % REPORT_INTERVAL == 0:
                 safe_print(print_lock, f"[Worker {process_id}] Progress: {i + 1}/{NUM_QUERIES_PER_PROCESS} queries completed.")
 
-    except mysql.connector.Error as err:
+    except pymysql.MySQLError as err:
         safe_print(print_lock, f"[Worker {process_id}] Error: {err}")
     except Exception as e:
         safe_print(print_lock, f"[Worker {process_id}] An unexpected error occurred: {e}")
     finally:
         # Ensure the connection is closed when the process finishes or errors out
-        if conn and conn.is_connected():
+        if conn:
             conn.close()
             end_time = time.time()
             duration = end_time - start_time
