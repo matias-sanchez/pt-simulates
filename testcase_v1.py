@@ -15,7 +15,6 @@ DB_CONFIG = {
 NUM_WORKER_PROCESSES = 20  
 BATCH_SIZE = 150 # the number of values in the query
 
-NUM_QUERIES_PER_PROCESS = 1000000
 # Print a progress update every N queries.
 REPORT_INTERVAL = 10000
 
@@ -48,13 +47,15 @@ def gather_all_in_values():
     return in_values
 
 # 2. The target function for the worker processes
-def worker_query_data(process_id, in_values, print_lock):
+def worker_query_data(process_id, in_values, print_lock, num_queries=None):
     """
     Establishes a single connection and runs a random query in a loop.
     This function is executed in a separate process.
     """
-    # Use the process-safe print function
-    safe_print(print_lock, f"[Worker {process_id}] Process started, will run {NUM_QUERIES_PER_PROCESS} queries.")
+    if num_queries is None:
+        safe_print(print_lock, f"[Worker {process_id}] Process started, will run indefinitely.")
+    else:
+        safe_print(print_lock, f"[Worker {process_id}] Process started, will run {num_queries} queries.")
     
     conn = None
     total_records_found = 0
@@ -66,7 +67,8 @@ def worker_query_data(process_id, in_values, print_lock):
         safe_print(print_lock, f"[Worker {process_id}] Connection established.")
 
         # Main loop to run the query repeatedly
-        for i in range(NUM_QUERIES_PER_PROCESS):
+        count = 0
+        while num_queries is None or count < num_queries:
             # 3. generate the random value in query
             random_values = random.sample(in_values, BATCH_SIZE)
 
@@ -80,9 +82,11 @@ def worker_query_data(process_id, in_values, print_lock):
             results = cursor.fetchall()
             cursor.close()
             
-            # Report progress periodically
-            if (i + 1) % REPORT_INTERVAL == 0:
-                safe_print(print_lock, f"[Worker {process_id}] Progress: {i + 1}/{NUM_QUERIES_PER_PROCESS} queries completed.")
+            count += 1
+            if num_queries is not None and (count % REPORT_INTERVAL == 0):
+                safe_print(print_lock, f"[Worker {process_id}] Progress: {count}/{num_queries} queries completed.")
+            elif num_queries is None and (count % REPORT_INTERVAL == 0):
+                safe_print(print_lock, f"[Worker {process_id}] Progress: {count} queries completed (no limit).")
 
     except pymysql.MySQLError as err:
         safe_print(print_lock, f"[Worker {process_id}] Error: {err}")
@@ -96,7 +100,7 @@ def worker_query_data(process_id, in_values, print_lock):
             duration = end_time - start_time
             safe_print(
                 print_lock,
-                f"[Worker {process_id}] FINISHED. Ran {NUM_QUERIES_PER_PROCESS} queries "
+                f"[Worker {process_id}] FINISHED. Ran {count if num_queries is None else num_queries} queries "
             )
 
 
@@ -121,7 +125,7 @@ if __name__ == "__main__":
         # Create a Process, not a Thread
         process = multiprocessing.Process(
             target=worker_query_data, 
-            args=(i + 1, all_in_values, lock) # Pass the lock to the worker
+            args=(i + 1, all_in_values, lock, None) # Pass the lock to the worker and num_queries=None
         )
         worker_processes.append(process)
         process.start() # Start the process
