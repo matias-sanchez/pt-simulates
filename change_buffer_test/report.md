@@ -145,7 +145,7 @@ WHERE table_schema = 'sbtest';
 | `x_full` | Uncompressed with same secondary indexes as `cx_full` | 16 × 16 M | 86 GiB |
 
 <a id="phase-a-results"></a>
-## 4. Results Phase A — Legacy 6h/12h Campaign (Tests 1–5)
+## 4. Results Phase A — 6h/12h Campaign (Tests 1–5)
 
 These suites evaluated change-buffer settings across a range of read/write mixes. Each subsection lists the command template, configuration highlights, graphs, and key observations.
 
