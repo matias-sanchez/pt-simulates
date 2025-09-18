@@ -16,7 +16,7 @@ Because the issue that prompted this benchmarking effort arose on compressed tab
 3. [Table Layouts & Datasets](#3-table-layouts--datasets)
    - [3.1 Phase A datasets](#31-phase-a-datasets-tests-15)
    - [3.2 Phase B datasets](#32-phase-b-datasets-16×16m-matrix-runs)
-4. [Results Phase A — Legacy 6h/12h Campaign](#phase-a-results)
+4. [Results Phase A — 6h/12h Campaign](#phase-a-results)
    - [4.1 Test 1 — 32 Threads, 12 Hours](#phase-a-test-1)
    - [4.2 Test 2 — 32 Threads, 6 Hours](#phase-a-test-2)
    - [4.3 Test 3 — 64 Threads, 6 Hours](#phase-a-test-3)
