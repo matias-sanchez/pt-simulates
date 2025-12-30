@@ -22,9 +22,7 @@ try:
     from pymysql.cursors import DictCursor
 except ModuleNotFoundError as exc:  # pragma: no cover
     raise SystemExit(
-        "PyMySQL is required. Run `./orchestrate.sh init --force` once to let the harness provision "
-        "its virtualenv, or manually create /mnt/vitess/testcase/tc_idrbackfillhandler_mimic/.venv "
-        "and install PyMySQL inside it."
+        "PyMySQL is required."
     ) from exc
 
 
