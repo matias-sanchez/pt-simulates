@@ -7,7 +7,7 @@ import (
 )
 
 // BuildInsert renders the multi-row INSERT statement and the flat parameter
-// slice for a batch (SPEC §4.3 + T022). The SQL shape is:
+// slice for a batch. The SQL shape is:
 //
 //	INSERT INTO `<schema>`.`<table>` (col1, col2, ...) VALUES
 //	(?,?,?,...), (?,?,?,...), ...

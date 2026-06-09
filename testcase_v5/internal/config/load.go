@@ -8,12 +8,12 @@ import (
 )
 
 // ErrConfigInvalid is returned by Load when validation fails; the wrapped
-// error carries the joined list of every violation (CONSTITUTION P9).
+// error carries the joined list of every violation.
 var ErrConfigInvalid = errors.New("tc_config.json is invalid")
 
-// Load reads, decodes (strict — unknown fields are rejected per
-// CONSTITUTION P9), and validates the config at path. The returned *Config
-// is safe to use; Load never returns a partially-validated config.
+// Load reads, decodes (strict — unknown fields are rejected), and validates
+// the config at path. The returned *Config is safe to use; Load never returns
+// a partially-validated config.
 func Load(path string) (*Config, error) {
 	raw, err := os.ReadFile(path)
 	if err != nil {
@@ -30,7 +30,7 @@ func Load(path string) (*Config, error) {
 }
 
 // Hash returns a SHA-256 hex digest of the on-disk config bytes (for
-// provenance — CONSTITUTION P11). Errors from re-reading the file are
+// provenance). Errors from re-reading the file are
 // propagated; the digest is over raw bytes, not the parsed struct, so two
 // configs that differ only in whitespace would hash differently — which is
 // intentional, because a difference like that should be unambiguous in run

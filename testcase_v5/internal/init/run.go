@@ -12,7 +12,7 @@ import (
 	"github.com/percona-cs/cs0055422-tc-idr/internal/obs"
 )
 
-// Run is the CLI's entrypoint for the init verb (SPEC §5.2). It builds the
+// Run is the CLI's entrypoint for the init verb. It builds the
 // artifact directory + provenance header, opens the dual-handler logger,
 // runs the orchestrator, then writes summary tables.
 func Run(ctx context.Context, cfg *config.Config, commit, builtAt string) error {

@@ -112,7 +112,7 @@ func seedTeam(ctx context.Context, db *sql.DB, cfg *config.Config, cycle blobgen
 		return tc, err
 	}
 
-	// Count-verify per SPEC §4.3 Init phase.
+	// Count-verify the seeded rows for this team.
 	if err := verifyTeamCount(ctx, db, cfg, job, teamLogger); err != nil {
 		return tc, err
 	}

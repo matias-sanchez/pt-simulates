@@ -19,9 +19,9 @@ import (
 )
 
 // Orchestrate runs the scan-encrypt-update phase across every team in
-// cfg.Init (SPEC §5.4 + §5.6). Reads come from cfg.Database.Read (replica),
+// cfg.Init. Reads come from cfg.Database.Read (replica),
 // writes from cfg.Database.Write (master). One *sql.DB per endpoint; per-team
-// workers share the pools (SPEC §5.7).
+// workers share the pools.
 func Orchestrate(ctx context.Context, cfg *config.Config, logger *slog.Logger) (Summary, error) {
 	summary := Summary{Started: time.Now().UTC()}
 
@@ -54,9 +54,9 @@ func Orchestrate(ctx context.Context, cfg *config.Config, logger *slog.Logger) (
 		int64(cfg.Init.MaxReplicationLagSeconds),
 		logger.With(slog.String("component", "repllag"))))
 
-	// Optional config-gated sidecars: intra-table noise (SPEC §2 Exception
-	// 2026-05-27) and read-path diversification searchers (2026-05-28). Each
-	// is a no-op when its config block is disabled.
+	// Optional config-gated sidecars: intra-table noise and read-path
+	// diversification searchers. Each is a no-op when its config block is
+	// disabled.
 	launchSidecars(gctx, g, writePool, cfg, logger)
 
 	// Team queue.
@@ -108,7 +108,7 @@ func Orchestrate(ctx context.Context, cfg *config.Config, logger *slog.Logger) (
 	// AND a max_runtime deadline is set, do NOT end the run at IDR-sweep
 	// completion — let the sidecars keep driving the workload until the deadline
 	// (or a signal). This is what makes a soak last its configured duration
-	// rather than ending after one IDR pass (SPEC §2 Exception sidecars).
+	// rather than ending after one IDR pass.
 	soakDriven := (cfg.Noise.Enabled || cfg.Run.SearchMix.Enabled) &&
 		cfg.Safety.MaxRuntimeSeconds > 0
 	go func() {
@@ -141,10 +141,10 @@ func Orchestrate(ctx context.Context, cfg *config.Config, logger *slog.Logger) (
 }
 
 // launchSidecars starts the optional, config-gated sidecar workers: intra-table
-// noise DML (SPEC §2 Exception 2026-05-27) and read-path diversification
-// searchers (SPEC §2 Exception 2026-05-28). Each is a no-op when its config
+// noise DML and read-path diversification
+// searchers. Each is a no-op when its config
 // block is disabled. Extracted from Orchestrate to keep it within the funlen
-// budget (CONSTITUTION §2).
+// budget.
 func launchSidecars(ctx context.Context, g *errgroup.Group, writePool *sql.DB,
 	cfg *config.Config, logger *slog.Logger) {
 	g.Go(func() error {

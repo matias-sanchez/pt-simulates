@@ -21,7 +21,7 @@ import (
 )
 
 // Orchestrate seeds every team in cfg.Init using a write-pool shared across
-// workers (SPEC §5.3 + §5.7). Caller owns the logger.
+// workers. Caller owns the logger.
 func Orchestrate(ctx context.Context, cfg *config.Config, logger *slog.Logger) (Summary, error) {
 	summary := Summary{Started: time.Now().UTC()}
 	if err := bootstrapDatabase(ctx, cfg, logger); err != nil {
@@ -275,10 +275,10 @@ func applySchema(ctx context.Context, pool *sql.DB, cfg *config.Config, logger *
 
 // rebuildSecondaryIndexes is the bulk-load phase 2: with all rows seeded,
 // issue ALTER TABLE ADD KEY for each secondary index parsed out of the
-// embedded schema. End-state matches SPEC C8 byte-identical schema.
+// embedded schema. End-state matches the target schema byte-identically.
 //
 // Runs AFTER all team workers complete, BEFORE finalCountVerify so the
-// final state is the SPEC-defined state.
+// final state is the target schema state.
 func rebuildSecondaryIndexes(ctx context.Context, pool *sql.DB, cfg *config.Config,
 	logger *slog.Logger) error {
 

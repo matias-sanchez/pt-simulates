@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 )
 
-// Validate enforces every rule documented in SPEC §4.1. It collects ALL
-// errors before returning a single joined error (CONSTITUTION P9) so the
-// operator sees the full list at startup, not one violation per retry.
+// Validate enforces every documented config rule. It collects ALL
+// errors before returning a single joined error so the operator sees the
+// full list at startup, not one violation per retry.
 func Validate(cfg *Config) error {
 	var errs []error
 	errs = append(errs, validateDatabase(cfg)...)

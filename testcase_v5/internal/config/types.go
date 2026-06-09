@@ -162,23 +162,22 @@ type SearchMix struct {
 	// ref scan with `IGNORE INDEX(PRIMARY)` + an `id > ?` keyset cursor +
 	// `ORDER BY id ASC` -> a team_id secondary ref (ha_index_next_same /
 	// RefIterator) + filesort + clustered fetch, S-latching the clustered ROOT
-	// (page 4). This is the canonical IDRBackfillHandler crash query (oct27a).
+	// (page 4). This is the canonical IDRBackfillHandler crash query.
 	ForwardRefScanWorkers int `json:"forward_refscan_workers"`
 	// RowsPerQuery bounds each searcher query (LIMIT, and the IN-list width for
-	// MRR). 0 falls back to the SPEC LIMIT of 10.
+	// MRR). 0 falls back to the default LIMIT of 10.
 	RowsPerQuery int `json:"rows_per_query"`
 	// LogIntervalSeconds throttles per-shape progress logs. 0 falls back to 60.
 	LogIntervalSeconds int `json:"log_interval_seconds"`
 }
 
-// Encryption captures the run.encryption block. SPEC §4.3 fixes Mode to
+// Encryption captures the run.encryption block. Mode is fixed to
 // "sha256"; Validate refuses any other value.
 type Encryption struct {
 	Mode string `json:"mode"`
 }
 
-// StopCondition captures run.stop_condition. Only "all_rows" is in scope
-// (SPEC §2).
+// StopCondition captures run.stop_condition. Only "all_rows" is in scope.
 type StopCondition struct {
 	Mode string `json:"mode"`
 }
@@ -196,12 +195,12 @@ type Safety struct {
 	MaxRuntimeSeconds     int  `json:"max_runtime_seconds"`
 }
 
-// Artifacts carries the per-run artifact directory (SPEC C13).
+// Artifacts carries the per-run artifact directory.
 type Artifacts struct {
 	Dir string `json:"dir"`
 }
 
-// Debug carries the wire-level debugging toggle (SPEC-APPENDIX.md §2 R4 / §5 C13).
+// Debug carries the wire-level debugging toggle.
 type Debug struct {
 	LogSQLOnce bool `json:"log_sql_once"`
 }

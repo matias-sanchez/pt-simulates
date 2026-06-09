@@ -12,9 +12,9 @@ import (
 // cfg.Init.RelaxDoublewrite=true. Both flush-log and sync-binlog are
 // touched when cfg.Init.RelaxDurability=true.
 //
-// Note (SPEC §4.3 deviation): SPEC wording says SET SESSION, but in
-// MySQL 8.0 these variables are GLOBAL-scope only. v4 run.py uses
-// SET GLOBAL; v5 matches v4. Documented in README.md "Notable deviations".
+// Note: although these variables are sometimes set per session, in
+// MySQL 8.0 they are GLOBAL-scope only, so this uses SET GLOBAL to
+// match the v4 harness. Documented in README.md "Notable deviations".
 const (
 	varFlushAtCommit = "innodb_flush_log_at_trx_commit"
 	varSyncBinlog    = "sync_binlog"

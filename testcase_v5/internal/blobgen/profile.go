@@ -61,8 +61,8 @@ type Cycle []SizeClass
 func NewCycle(p Profile) Cycle {
 	if total := p.SmallPct + p.MediumPct + p.LargePct; total != 100 {
 		// We do not silently coerce — config.Validate is the boundary, and
-		// reaching here with bad input is a programmer error (CONSTITUTION
-		// concrete rules: panic only on programmer error).
+		// reaching here with bad input is a programmer error (panic only
+		// on programmer error).
 		panic(fmt.Sprintf("blobgen: profile sums to %d, want 100", total))
 	}
 	out := make(Cycle, 0, 100)
