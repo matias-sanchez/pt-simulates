@@ -1,9 +1,8 @@
 package config
 
-// Config mirrors tc_config.json (SPEC §4.1). Field shape is drop-in
-// compatible with v4's tc_config.json (SPEC C7) plus three v5-only
-// additions: artifacts, init.max_replication_lag_seconds, debug.log_sql_once
-// (SPEC C13).
+// Config mirrors tc_config.json. The field shape stays drop-in
+// compatible with the v4 config plus three v5-only additions: artifacts,
+// init.max_replication_lag_seconds, and debug.log_sql_once.
 //
 // Fields that v4 used but v5 ignores at runtime (e.g. remote.screen_sessions)
 // are kept here so DisallowUnknownFields stays strict; v5 logs a warning on
@@ -20,9 +19,9 @@ type Config struct {
 }
 
 // Noise carries the optional sibling-DML workers that run alongside the
-// IDR scan-update loop. SPEC §2 Exception (2026-05-27): intra-table noise
-// on `files` is in scope as a config-gated opt-in; cross-table workloads
-// remain out of scope. See internal/noise/doc.go + T063-pattern-analysis.md.
+// IDR scan-update loop. Intra-table noise on `files` is in scope as a
+// config-gated opt-in; cross-table workloads remain out of scope.
+// See internal/noise/doc.go.
 type Noise struct {
 	Enabled            bool      `json:"enabled"`
 	InsertWorkers      int       `json:"insert_workers"`
