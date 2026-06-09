@@ -1,3 +1,4 @@
-// Command tc-idr is the v5 IDRBackfillHandler mimic harness CLI (ST-PER-003).
-// See SPEC §5.2 for the verb surface and CONSTITUTION P1 for the single-flag rule.
+// Command tc-idr is the v5 IDRBackfillHandler mimic harness CLI for the
+// CS0055422 mysqld SIGSEGV reproduction. See README.md for the verb surface
+// and the single-flag (--config) rule.
 package main

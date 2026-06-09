@@ -61,8 +61,8 @@ type Remote struct {
 	ScreenSessions map[string]string `json:"screen_sessions"`
 }
 
-// Database wraps the two endpoint definitions. SPEC §0.4: write is a
-// local Unix socket on slack-master; read is the replica TCP endpoint.
+// Database wraps the two endpoint definitions. Write targets the source/master
+// (typically a local Unix socket); read targets the replica TCP endpoint.
 type Database struct {
 	Write Endpoint `json:"write"`
 	Read  Endpoint `json:"read"`

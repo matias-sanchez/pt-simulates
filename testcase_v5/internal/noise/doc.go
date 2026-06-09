@@ -3,8 +3,8 @@
 //
 // Why this exists
 //
-// ST-PER-003 T063 pattern analysis (tools/query-visualizer/T063-pattern-analysis.md)
-// observed three workload conditions in both customer crashes:
+// Analysis of the CS0055422 pre-crash captures observed three workload
+// conditions in both customer crashes:
 //
 //  1. Range-scan SELECT on a ROW_FORMAT=COMPRESSED table (v5 already does this).
 //  2. Heavy concurrent DML on the same compressed-table family during the
