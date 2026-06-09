@@ -10,7 +10,7 @@ import (
 )
 
 // TestBuildInjectedMetadata verifies Makefile build-linux ldflags embed commit
-// and builtAt into the binary (T015).
+// and builtAt into the binary.
 func TestBuildInjectedMetadata(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("skipping ldflags build test on windows")

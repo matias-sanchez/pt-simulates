@@ -2,7 +2,8 @@ package runphase
 
 import "testing"
 
-// TestSearchMixMRRArgsMatchSeededExternalID guards the falsifier-found bug: the
+// TestSearchMixMRRArgsMatchSeededExternalID guards against a previously-found
+// bug: the
 // MRR IN-list values MUST match blobgen's seeded external_id format
 // ("ext-<id>", id = StartID + teamIdx*RowsPerTeam + rowN) so the IN-list
 // resolves real keys and MRR actually performs the clustered fetch. is_deleted

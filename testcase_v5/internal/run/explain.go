@@ -7,7 +7,7 @@ import (
 )
 
 // logExplainOnce runs EXPLAIN on the per-team SELECT and writes one
-// structured record. SPEC §4.3 says the plan MUST use team_id_4; we just
+// structured record. The plan is expected to use team_id_4; we just
 // log what the optimizer chose and let the operator confirm — failing the
 // run on an unexpected index would mask a real diagnostic signal.
 func logExplainOnce(ctx context.Context, db *sql.DB, sel string,

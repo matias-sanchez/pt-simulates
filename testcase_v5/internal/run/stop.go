@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-// ErrMaxRuntime is returned when the run-wide deadline expires (SPEC
-// §5.4 stop condition + safety.max_runtime_seconds).
+// ErrMaxRuntime is returned when the run-wide deadline expires (the
+// safety.max_runtime_seconds stop condition).
 var ErrMaxRuntime = errors.New("run: max_runtime_seconds exceeded")
 
 // withCancellation derives a context that cancels on SIGINT/SIGTERM and on

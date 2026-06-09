@@ -1,7 +1,7 @@
 //go:build integration
 
-// Package smoke is the end-to-end integration test for the v5 harness
-// (SPEC-APPENDIX.md §1 + tasks T037). It spins up the containerized MySQL declared in
+// Package smoke is the end-to-end integration test for the v5 harness.
+// It spins up the containerized MySQL declared in
 // compose/docker-compose.yml, writes a 1-team x 100-row config to a tmp
 // path, runs init then run, and asserts: provenance.json valid, 100 rows
 // updated, summary.json contains the expected totals.
@@ -258,10 +258,10 @@ func assertProvenance(t *testing.T, dir string) {
 }
 
 // TestSearchMixForwardRefScanIntegration exercises the changed run-phase read
-// path (SPEC-APPENDIX §7.2 Track A1): a run with search_mix forward_refscan
-// enabled must complete cleanly — proving the SQL shape, the per-session
-// REPEATABLE-READ SET, and the auto-EXPLAIN all execute (any failure aborts the
-// run, CONSTITUTION P3) — and must emit the dominant shape's EXPLAIN to the
+// path: a run with search_mix forward_refscan enabled must complete cleanly
+// — proving the SQL shape, the per-session REPEATABLE-READ SET, and the
+// auto-EXPLAIN all execute (any failure aborts the run) — and must emit the
+// dominant shape's EXPLAIN to the
 // artifact, which MUST show a filesort and MUST NOT use the clustered PRIMARY
 // (IGNORE INDEX(PRIMARY) + ORDER BY id guarantees both regardless of cardinality).
 func TestSearchMixForwardRefScanIntegration(t *testing.T) {

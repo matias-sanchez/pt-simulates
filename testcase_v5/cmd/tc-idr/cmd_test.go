@@ -8,10 +8,9 @@ import (
 	"github.com/spf13/pflag"
 )
 
-// TestExactlyOneFlag is the F-A3 regression test from ANALYSIS.md §6: the
-// CLI must expose exactly one flag (--config). A future code change that
-// accidentally adds a --verbose, --dry-run, or env-bound flag will fail
-// here. Per CONSTITUTION P1 + SPEC §3 criterion 4.
+// TestExactlyOneFlag is the regression test for the rule that the CLI must
+// expose exactly one flag (--config). A future code change that accidentally
+// adds a --verbose, --dry-run, or env-bound flag will fail here.
 func TestExactlyOneFlag(t *testing.T) {
 	root := newRootCmd("test", "test")
 	var names []string
