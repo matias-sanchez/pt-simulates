@@ -7,15 +7,15 @@ import (
 	"strings"
 	"time"
 
-	// MySQL driver registered for database/sql (CONSTITUTION P13: pinned via
-	// go.mod). Driver is the only acceptable choice per SPEC C12.
+	// MySQL driver registered for database/sql (pinned via go.mod). This
+	// driver is the only acceptable choice.
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
 )
 
-// Open returns a configured *sql.DB pool for an endpoint. SPEC §5.7 fixes
-// the pool shape: SetMaxOpenConns = maxConns + 1, SetMaxIdleConns = maxConns,
+// Open returns a configured *sql.DB pool for an endpoint. The pool shape is
+// fixed: SetMaxOpenConns = maxConns + 1, SetMaxIdleConns = maxConns,
 // SetConnMaxLifetime = 0 (let server-side timeouts decide). DSN params
 // parseTime=true (so date_create lands as time.Time when we add a typed
 // scan later), multiStatements=false, interpolateParams=false (binary
@@ -31,7 +31,7 @@ func Open(endpoint config.Endpoint, maxConns int) (*sql.DB, error) {
 	driver.SetConnMaxLifetime(0)
 	driver.SetConnMaxIdleTime(0)
 	// Wake up one connection so misconfigured endpoints fail at startup, not
-	// at first per-team query (CONSTITUTION P9 — fail-fast).
+	// at first per-team query (fail-fast).
 	if err := driver.Ping(); err != nil {
 		_ = driver.Close()
 		return nil, fmt.Errorf("ping endpoint: %w (dsn redacted)", err)
@@ -43,10 +43,9 @@ func Open(endpoint config.Endpoint, maxConns int) (*sql.DB, error) {
 	return driver, nil
 }
 
-// DSN renders the go-sql-driver/mysql DSN. Required params per SPEC §5.7:
+// DSN renders the go-sql-driver/mysql DSN. Required params:
 // parseTime=true, multiStatements=false, interpolateParams=false. Credentials
-// come from the config; we never read them from environment variables
-// (CONSTITUTION P1).
+// come from the config; we never read them from environment variables.
 func DSN(e config.Endpoint) string {
 	params := url.Values{}
 	params.Set("parseTime", "true")

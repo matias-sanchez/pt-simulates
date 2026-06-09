@@ -9,7 +9,7 @@ import (
 
 // columnList renders the 43 backtick-quoted column names in blobgen.Columns()
 // order, comma-separated. Shared by every read shape so the SELECT projection
-// stays byte-identical to the v4 wire shape (SPEC §4.3).
+// stays byte-identical to the v4 wire shape.
 func columnList() string {
 	cols := blobgen.Columns()
 	var sb strings.Builder
@@ -24,8 +24,8 @@ func columnList() string {
 	return sb.String()
 }
 
-// selectSQL renders the 43-column SELECT statement from v4 run.py / SPEC
-// §4.3. Order matches blobgen.Columns(); the LIMIT is the SPEC-mandated
+// selectSQL renders the 43-column SELECT statement from the v4 read shape.
+// Order matches blobgen.Columns(); the LIMIT is the mandated
 // run.batch_size==10 (config validator enforces). This is the frozen IDR
 // loop shape and MUST NOT change (default-off parity guard).
 func selectSQL(schema, table string, batchSize int) string {

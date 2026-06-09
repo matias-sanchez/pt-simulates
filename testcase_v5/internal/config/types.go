@@ -31,8 +31,8 @@ type Noise struct {
 	UpdateRatePerSec   int       `json:"update_rate_per_sec"`
 	// UpdateHotRowsPerTeam restricts UPDATE noise to the first N rows of
 	// each team's seeded range. Concentrates same-page contention to amplify
-	// the compressed-page recompression pressure observed in the Apr-28
-	// pattern. 0 = use full per-team range.
+	// the compressed-page recompression pressure observed in the crash-window
+	// workload pattern. 0 = use full per-team range.
 	UpdateHotRowsPerTeam int       `json:"update_hot_rows_per_team"`
 	// PoolMaxConns overrides the noise-side write pool size. 0 = falls back
 	// to the IDR run pool size. Set higher (e.g. update_workers + insert_workers
@@ -42,7 +42,7 @@ type Noise struct {
 	Burst              BurstCfg  `json:"burst"`
 }
 
-// BurstCfg is the time-shaped DML rate multiplier matching the Apr-28
+// BurstCfg is the time-shaped DML rate multiplier matching the observed
 // crash-window pattern (~20s spike + ~50s baseline, 3-4x multiplier).
 type BurstCfg struct {
 	Enabled         bool    `json:"enabled"`
@@ -52,8 +52,8 @@ type BurstCfg struct {
 }
 
 // Remote captures the v4 remote.* block. v5 ignores every field at runtime
-// (sysbench-style invocation per SPEC C5) but parses them to keep the JSON
-// shape v4-compatible.
+// (sysbench-style invocation) but parses them to keep the JSON shape
+// v4-compatible.
 type Remote struct {
 	RemoteDir      string            `json:"remote_dir"`
 	LogsDir        string            `json:"logs_dir"`
@@ -79,7 +79,7 @@ type Endpoint struct {
 	Socket   string `json:"socket"`
 }
 
-// Init carries the seeding knobs from SPEC §4.1.
+// Init carries the seeding knobs.
 type Init struct {
 	Teams                     int         `json:"teams"`
 	RowsPerTeam               int         `json:"rows_per_team"`
@@ -98,7 +98,7 @@ type Init struct {
 	RelaxDurability           bool        `json:"relax_durability"`
 	ForceInit                 bool        `json:"force_init"`
 	MaxReplicationLagSeconds  int         `json:"max_replication_lag_seconds"`
-	// Opt-in performance levers — default off to preserve SPEC §4.3 wire
+	// Opt-in performance levers — default off to preserve the wire
 	// shape. Each one is documented in the per-field comments below.
 	//
 	// DisableRedoLog: ALTER INSTANCE DISABLE INNODB REDO_LOG before init,
@@ -108,12 +108,12 @@ type Init struct {
 	DisableRedoLog            bool        `json:"disable_redo_log"`
 	// BulkIndexRebuild: create the table with PRIMARY KEY only, seed all
 	// rows, then ALTER TABLE ADD KEY for every secondary index parsed
-	// out of the embedded schema. End-state matches SPEC C8 byte-identical
+	// out of the embedded schema. End-state matches the byte-identical
 	// schema; intermediate timing differs (replica sees DDL events).
 	BulkIndexRebuild          bool        `json:"bulk_index_rebuild"`
 }
 
-// BlobProfile is the size-class mix from SPEC §4.1; percentages must sum to
+// BlobProfile is the size-class mix; percentages must sum to
 // 100 (enforced by Validate).
 type BlobProfile struct {
 	SmallPct  int `json:"small_pct"`
@@ -121,7 +121,7 @@ type BlobProfile struct {
 	LargePct  int `json:"large_pct"`
 }
 
-// Run carries the workload knobs from SPEC §4.1.
+// Run carries the workload knobs.
 type Run struct {
 	BatchSize                      int              `json:"batch_size"`
 	ReadSource                     string           `json:"read_source"`
@@ -137,17 +137,16 @@ type Run struct {
 }
 
 // SearchMix carries the optional read-path diversification searchers that run
-// alongside the IDR scan-update loop on the replica. SPEC §2 Exception
-// (2026-05-28, Track A1): diversifying the *read* access paths on
-// `byfile_tc.files` is in scope as a config-gated opt-in so the harness drives
-// the observed crash callers — optimizer range-estimation, MRR execution, and
-// the DOMINANT forward `team_id = const` ref scan + filesort (cores
-// oct25/oct27a/oct27b, F-022) — which all converge on
+// alongside the IDR scan-update loop on the replica. Diversifying the *read*
+// access paths on `byfile_tc.files` is in scope as a config-gated opt-in so the
+// harness drives the observed crash callers — optimizer range-estimation, MRR
+// execution, and the dominant forward `team_id = const` ref scan + filesort,
+// which all converge on
 // btr_cur_search_to_nth_level -> buf_page_get_gen -> single_page ->
 // rw_lock_s_lock_low. (The earlier backward `ha_index_prev` shape was replaced:
-// it appears in NO core — STATUS NEXT-ACTION #0.) Searchers are read-only.
-// Default Enabled=false is a no-op and preserves SPEC §4.3 wire shape + the
-// T041–T043 gates bit-for-bit. See internal/run/searcher.go + SPEC-APPENDIX §7.2.
+// it appears in no core dump.) Searchers are read-only.
+// Default Enabled=false is a no-op and preserves the wire shape and the
+// validation gates bit-for-bit. See internal/run/searcher.go.
 type SearchMix struct {
 	Enabled bool `json:"enabled"`
 	// RangeEstimateWorkers issue many distinct non-cached BETWEEN ranges over

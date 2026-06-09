@@ -8,9 +8,9 @@ import (
 )
 
 // ProbeMaxAllowedPacket reads @@max_allowed_packet from the endpoint so
-// config validation (SPEC §4.1) can enforce
+// config validation can enforce
 // init.insert_batch_bytes <= probed. Errors propagate; callers must NOT
-// silently fall back (CONSTITUTION P3).
+// silently fall back.
 func ProbeMaxAllowedPacket(ctx context.Context, db *sql.DB) (int64, error) {
 	var raw string
 	row := db.QueryRowContext(ctx, "SELECT @@max_allowed_packet")

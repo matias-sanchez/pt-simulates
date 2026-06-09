@@ -2,7 +2,7 @@ package blobgen
 
 import "fmt"
 
-// SizeClass labels one of v4's three blob size bands (SPEC §5.8). The class
+// SizeClass labels one of v4's three blob size bands. The class
 // determines the size ranges and the metadata text length per row.
 type SizeClass int
 
@@ -12,8 +12,8 @@ const (
 	Large
 )
 
-// classRanges mirrors v4 run.py's PROFILE_SPECS. The bytes themselves are
-// Go-PRNG-native (SPEC C2 — statistical parity, not byte parity).
+// classRanges mirrors v4's profile size bands. The bytes themselves are
+// Go-PRNG-native (statistical parity, not byte parity).
 var classRanges = map[SizeClass]struct {
 	contents     [2]int
 	highlight    [2]int
@@ -53,7 +53,7 @@ type Profile struct {
 // Cycle is the per-row size-class ordering: a slice of length 100 where
 // SmallPct entries are Small, MediumPct entries are Medium, LargePct
 // entries are Large. Row N picks Cycle[N % 100]; this preserves v4's
-// repeatable distribution shape (SPEC §5.8).
+// repeatable distribution shape.
 type Cycle []SizeClass
 
 // NewCycle builds the cycle slice once per init phase. Validate the inputs
