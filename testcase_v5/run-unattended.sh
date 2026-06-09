@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# run-unattended.sh — launch-and-leave reproduction soak for the CS0055422
+# run-unattended.sh — launch-and-leave reproduction soak for the
 # mysqld SIGSEGV. Supervises tc-idr, watches the target mysqld for a signal-11
 # crash / new core dump, captures the result, and self-reports to files so no
 # live terminal session is needed. Modeled on the internal reproduction

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
 )
 
 func makeRow(seed uint64, rowN uint64, class blobgen.SizeClass) blobgen.Row {

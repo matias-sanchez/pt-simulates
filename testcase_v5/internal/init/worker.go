@@ -7,9 +7,9 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/debugsql"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/debugsql"
 )
 
 // teamJob describes the rows one worker is responsible for seeding.

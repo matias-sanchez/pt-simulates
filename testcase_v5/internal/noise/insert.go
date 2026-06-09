@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
 )
 
 type insertWorker struct {

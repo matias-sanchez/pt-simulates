@@ -3,7 +3,7 @@ package initphase
 import (
 	"strings"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
 )
 
 // BuildInsert renders the multi-row INSERT statement and the flat parameter

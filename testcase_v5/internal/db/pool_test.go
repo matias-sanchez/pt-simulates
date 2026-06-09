@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
 )
 
 func TestDSNSocketShape(t *testing.T) {

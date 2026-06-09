@@ -11,7 +11,7 @@ import (
 	// driver is the only acceptable choice.
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
 )
 
 // Open returns a configured *sql.DB pool for an endpoint. The pool shape is

@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/artifacts"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/obs"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/artifacts"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/obs"
 )
 
 // Run is the CLI's entrypoint for the run verb.

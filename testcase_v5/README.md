@@ -3,7 +3,7 @@
 A self-contained Go harness that replays the **IDRBackfillHandler scan →
 encrypt → update** workload against a MySQL/Percona Server source→replica pair,
 to drive (and, on the right hardware, attempt to reproduce) the mysqld
-**SIGSEGV** seen in support case **CS0055422**.
+**SIGSEGV** seen in a recurring production support case.
 
 It is the v5 successor to the `testcase_v1`–`testcase_v4` reproduction attempts
 in this repo: a single static binary instead of a Python script, ~5–10× faster

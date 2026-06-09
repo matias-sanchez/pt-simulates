@@ -12,12 +12,12 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/db"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/debugsql"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/repllag"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/schema"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/db"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/debugsql"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/repllag"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/schema"
 )
 
 // Orchestrate seeds every team in cfg.Init using a write-pool shared across

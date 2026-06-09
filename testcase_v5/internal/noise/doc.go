@@ -3,7 +3,7 @@
 //
 // Why this exists
 //
-// Analysis of the CS0055422 pre-crash captures observed three workload
+// Analysis of the pre-crash captures observed three workload
 // conditions in both customer crashes:
 //
 //  1. Range-scan SELECT on a ROW_FORMAT=COMPRESSED table (v5 already does this).

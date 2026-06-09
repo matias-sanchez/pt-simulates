@@ -1,4 +1,4 @@
-module github.com/percona-cs/cs0055422-tc-idr
+module github.com/matias-sanchez/pt-simulates/testcase_v5
 
 go 1.25.0
 

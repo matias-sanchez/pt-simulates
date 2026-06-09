@@ -10,8 +10,8 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
 )
 
 // Run starts the configured set of insert and update workers and blocks

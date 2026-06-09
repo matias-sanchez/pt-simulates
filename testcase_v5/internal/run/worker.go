@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/debugsql"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/debugsql"
 )
 
 // teamRowResult is the minimal scan-target we pull out of the SELECT — we

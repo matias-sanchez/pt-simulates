@@ -1,4 +1,4 @@
-# tc-idr — v5 IDRBackfillHandler mimic harness (CS0055422 reproduction).
+# tc-idr — v5 IDRBackfillHandler mimic harness (mysqld SIGSEGV reproduction).
 # Build / test convenience only; no runtime orchestration (host session
 # management lives in run-unattended.sh and is a host concern).
 
@@ -6,7 +6,7 @@ SHELL := bash
 .ONESHELL:
 .SHELLFLAGS := -eu -o pipefail -c
 
-MODULE      := github.com/percona-cs/cs0055422-tc-idr
+MODULE      := github.com/matias-sanchez/pt-simulates/testcase_v5
 BIN_NAME    := tc-idr
 BUILD_DIR   := build
 LINUX_BIN   := $(BUILD_DIR)/$(BIN_NAME)-linux-amd64

@@ -11,11 +11,11 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/db"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/debugsql"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/noise"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/repllag"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/db"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/debugsql"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/noise"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/repllag"
 )
 
 // Orchestrate runs the scan-encrypt-update phase across every team in

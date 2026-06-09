@@ -7,8 +7,8 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/artifacts"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/artifacts"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
 )
 
 func runInit(ctx context.Context, cfg *config.Config, commit, builtAt string) error {

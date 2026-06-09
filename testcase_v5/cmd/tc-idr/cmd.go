@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
 )
 
 // newRootCmd builds the cobra tree. Only --config is registered as a flag;
@@ -18,7 +18,7 @@ func newRootCmd(commit, builtAt string) *cobra.Command {
 
 	root := &cobra.Command{
 		Use:           "tc-idr --config <path> <verb>",
-		Short:         "IDRBackfillHandler mimic harness for cs0055422 reproduction",
+		Short:         "IDRBackfillHandler mimic harness for mysqld SIGSEGV reproduction",
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}

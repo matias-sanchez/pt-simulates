@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/blobgen"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/blobgen"
 )
 
 // columnList renders the 43 backtick-quoted column names in blobgen.Columns()

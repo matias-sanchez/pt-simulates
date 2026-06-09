@@ -23,10 +23,10 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/percona-cs/cs0055422-tc-idr/internal/artifacts"
-	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
-	initphase "github.com/percona-cs/cs0055422-tc-idr/internal/init"
-	runphase "github.com/percona-cs/cs0055422-tc-idr/internal/run"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/artifacts"
+	"github.com/matias-sanchez/pt-simulates/testcase_v5/internal/config"
+	initphase "github.com/matias-sanchez/pt-simulates/testcase_v5/internal/init"
+	runphase "github.com/matias-sanchez/pt-simulates/testcase_v5/internal/run"
 )
 
 const (

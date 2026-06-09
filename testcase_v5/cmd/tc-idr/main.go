@@ -1,5 +1,5 @@
 // Command tc-idr replays the IDRBackfillHandler scan-encrypt-update workload
-// against the cs0055422 reproduction cluster. The target is 5–10× the
+// against the reproduction cluster. The target is 5–10× the
 // v4 Python harness on init throughput, with identical SQL semantics so the
 // replica-side reproduction conditions are unchanged.
 //
