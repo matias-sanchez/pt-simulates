@@ -18,7 +18,7 @@ import (
 // until ctx is cancelled. With cfg.Noise.Enabled=false this is a no-op.
 //
 // Errors from any worker abort the whole noise group via the embedded
-// errgroup. SPEC P3: no per-worker fallback.
+// errgroup: no per-worker fallback.
 func Run(ctx context.Context, write *sql.DB, cfg *config.Config, logger *slog.Logger) error {
 	n := cfg.Noise
 	if !n.Enabled {
@@ -185,7 +185,7 @@ func sleepCtx(ctx context.Context, d time.Duration) error {
 // teamPicker / idPicker are tiny deterministic-ish helpers — the noise
 // workers do not need cryptographic randomness, only well-spread coverage
 // of the seeded range. The single-pass single-algorithm choice is a
-// linear-congruential walk seeded per worker (CONSTITUTION P2).
+// linear-congruential walk seeded per worker.
 type linWalker struct {
 	state uint64
 }

@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-// ProvenanceHeader is the unambiguous run-identity record required by
-// CONSTITUTION P11 and SPEC §3 criterion 7. Every artifact directory carries
+// ProvenanceHeader is the unambiguous run-identity record. Every
+// artifact directory carries
 // one as provenance.json. StartedAt is set at Header time; EndedAt is set
 // later by the run completion path via WithEndedAt.
 type ProvenanceHeader struct {

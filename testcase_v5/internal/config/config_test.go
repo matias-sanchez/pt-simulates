@@ -46,7 +46,7 @@ func TestRejectMissingFile(t *testing.T) {
 	}
 }
 
-// goldenRejects are committed JSON fixtures under testdata/ (T010). Each file
+// goldenRejects are committed JSON fixtures under testdata/. Each file
 // violates exactly one validation rule relative to accept-minimal.json.
 func TestRejectGoldenFiles(t *testing.T) {
 	cases := []struct {

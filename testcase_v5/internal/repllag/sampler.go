@@ -76,7 +76,7 @@ func (s Status) Healthy() bool {
 
 // Watch loops Sample on an interval until ctx is cancelled. If lagCeiling > 0
 // and the observed lag exceeds it, Watch returns ErrLagExceeded immediately
-// (CONSTITUTION P3 — no warn-and-continue).
+// (no warn-and-continue).
 func Watch(ctx context.Context, db *sql.DB, interval time.Duration,
 	lagCeiling int64, logger *slog.Logger) error {
 

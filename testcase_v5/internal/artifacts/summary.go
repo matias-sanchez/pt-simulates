@@ -40,7 +40,7 @@ type TeamRow struct {
 }
 
 // WriteSummary serializes the summary to <dir>/<phase>.summary.json and
-// renders a human-readable table to stdout. SPEC §3 criterion 7.
+// renders a human-readable table to stdout.
 func (d *Dir) WriteSummary(s PhaseSummary) error {
 	path := filepath.Join(d.Path, s.Phase+".summary.json")
 	b, err := json.MarshalIndent(s, "", "  ")

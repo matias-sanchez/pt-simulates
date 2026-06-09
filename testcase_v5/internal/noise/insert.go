@@ -70,9 +70,9 @@ func (w *insertWorker) run(ctx context.Context) error {
 			}
 			w.counters.Errors.Add(1)
 			w.logger.Warn("insert error", slog.String("err", err.Error()))
-			// Continue on transient errors; CONSTITUTION P3 forbids
-			// alternate-path fallback but a single failed INSERT is not
-			// a path divergence — it is a per-statement transient. The
+			// Continue on transient errors. Alternate-path fallback is
+			// forbidden, but a single failed INSERT is not a path
+			// divergence — it is a per-statement transient. The
 			// errgroup-level abort happens only on unrecoverable errors
 			// (context cancel, pool death), and those surface through
 			// later iterations.

@@ -1,5 +1,4 @@
-// Package obs constructs the dual-handler slog logger required by
-// CONSTITUTION P8 and SPEC §5.5.
+// Package obs constructs the dual-handler slog logger.
 package obs
 
 import (

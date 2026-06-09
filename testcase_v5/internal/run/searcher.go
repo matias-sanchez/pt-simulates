@@ -15,15 +15,15 @@ import (
 	"github.com/percona-cs/cs0055422-tc-idr/internal/db"
 )
 
-// runSearchMix drives the optional read-path diversification searchers (SPEC §2
-// Exception 2026-05-28, Track A1). With cfg.Run.SearchMix.Enabled=false this is
+// runSearchMix drives the optional read-path diversification searchers. With
+// cfg.Run.SearchMix.Enabled=false this is
 // a no-op and the harness behaves exactly as before. When enabled it opens its
 // OWN read pool against the replica (so it never perturbs the IDR loop's plans
 // or pool) and runs read-only SELECT shapes flat-out to maximise the rate and
 // diversity of the btr_cur_search_to_nth_level -> buf_page_get_gen ->
 // single_page -> rw_lock_s_lock latch path across all three observed crash
-// callers. Searchers never write. A genuine searcher error aborts the run
-// (CONSTITUTION P3); context cancellation at shutdown is not an error.
+// callers. Searchers never write. A genuine searcher error aborts the run;
+// context cancellation at shutdown is not an error.
 func runSearchMix(ctx context.Context, cfg *config.Config, logger *slog.Logger) error {
 	s := cfg.Run.SearchMix
 	if !s.Enabled {
@@ -139,8 +139,8 @@ func searchWorker(ctx context.Context, pool *sql.DB, spec searchSpec, logger *sl
 	}
 	defer func() { _ = conn.Close() }()
 	// State fidelity: pin REPEATABLE-READ on the searcher session so the read
-	// view matches the crash-time fingerprint (all 5 cores: isolation=
-	// REPEATABLE_READ) regardless of the replica's server default.
+	// view matches the crash-time fingerprint (isolation REPEATABLE-READ)
+	// regardless of the replica's server default.
 	if _, err := conn.ExecContext(ctx,
 		"SET SESSION transaction_isolation = 'REPEATABLE-READ'"); err != nil {
 		return fmt.Errorf("search_mix %s set isolation: %w", spec.kind, err)
@@ -163,7 +163,7 @@ func searchWorker(ctx context.Context, pool *sql.DB, spec searchSpec, logger *sl
 		}
 		team := spec.teamLo + (n % span)
 		args := spec.argsFor(team, n)
-		// A genuine query error aborts (P3); runSearchMix filters the
+		// A genuine query error aborts; runSearchMix filters the
 		// context-cancellation case that races shutdown.
 		if err := runOneSearch(ctx, conn, spec.query, args); err != nil {
 			return fmt.Errorf("search_mix %s query: %w", spec.kind, err)

@@ -11,7 +11,7 @@ import (
 	"github.com/percona-cs/cs0055422-tc-idr/internal/obs"
 )
 
-// Run is the CLI's entrypoint for the run verb (SPEC §5.2 + §5.4).
+// Run is the CLI's entrypoint for the run verb.
 func Run(ctx context.Context, cfg *config.Config, commit, builtAt string) error {
 	header := artifacts.Header(commit, builtAt, "")
 	dir, err := artifacts.Open(cfg.Artifacts.Dir, header)

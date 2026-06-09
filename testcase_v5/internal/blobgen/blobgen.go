@@ -8,8 +8,8 @@ import (
 	"math/rand/v2"
 )
 
-// Row carries the 43 values needed by one INSERT row (SPEC §5.8 + v4
-// run.py INSERT_COLUMNS). The order is the same as Columns() so callers can
+// Row carries the 43 values needed by one INSERT row (matching v4's
+// INSERT_COLUMNS). The order is the same as Columns() so callers can
 // flatten the row into the parameter slice without re-mapping.
 type Row struct {
 	ID                    int64
@@ -58,7 +58,7 @@ type Row struct {
 }
 
 // Columns returns the column names in the same order Row's fields use.
-// The list is byte-identical to v4 run.py's INSERT_COLUMNS so the wire-level
+// The list matches v4's INSERT_COLUMNS so the wire-level
 // INSERT shape matches.
 func Columns() []string {
 	return []string{
@@ -117,7 +117,7 @@ func (r Row) Values() []any {
 }
 
 // Inputs bundles the per-row generator inputs. dateStep is added per row
-// (rowN * dateStep), matching v4 run.py.
+// (rowN * dateStep), matching v4.
 type Inputs struct {
 	TeamID     int64
 	StartID    int64
@@ -128,7 +128,7 @@ type Inputs struct {
 }
 
 // Generate produces the row at offset rowN within the team. Output is
-// deterministic in (TeamID, StartID, rowN, Seed) per SPEC §5.8 + C10. The
+// deterministic in (TeamID, StartID, rowN, Seed). The
 // PRNG is math/rand/v2 ChaCha8 seeded by a 32-byte derivation of those
 // inputs.
 func Generate(rowN uint64, in Inputs) Row {

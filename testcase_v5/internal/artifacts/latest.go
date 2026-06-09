@@ -68,7 +68,7 @@ func ReadPID(dir *Dir) (int, error) {
 }
 
 // PrintStatus writes the latest artifact run metadata and any available
-// phase summaries to stdout (SPEC §5.2 status verb).
+// phase summaries to stdout (the status verb).
 func PrintStatus(root string, w io.Writer) error {
 	dir, err := LatestDir(root)
 	if err != nil {
@@ -109,7 +109,7 @@ func (d *Dir) LogFile() (string, error) {
 }
 
 // FollowLog prints existing log lines then polls for new ones until ctx
-// is canceled (SPEC §5.2 tail verb).
+// is canceled (the tail verb).
 func FollowLog(ctx context.Context, path string, w io.Writer) error {
 	f, err := os.Open(path)
 	if err != nil {

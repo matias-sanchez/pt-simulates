@@ -5,8 +5,8 @@ import (
 	"sync"
 )
 
-// Once logs the first SQL statement per phase/kind when enabled (SPEC §4.1
-// debug.log_sql_once).
+// Once logs the first SQL statement per phase/kind when enabled
+// (debug.log_sql_once).
 type Once struct {
 	enabled bool
 	seen    sync.Map

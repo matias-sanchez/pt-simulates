@@ -72,7 +72,7 @@ func (w *updateWorker) run(ctx context.Context) error {
 	}
 }
 
-// buildUpdateStmt matches the IDR run-phase UPDATE shape (SPEC §4.3) so the
+// buildUpdateStmt matches the IDR run-phase UPDATE shape so the
 // replica sees the same statement family v5 already replicates: three _ekm
 // columns + version bump.
 func buildUpdateStmt(schema, table string) string {

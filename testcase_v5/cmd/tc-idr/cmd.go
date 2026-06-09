@@ -9,10 +9,10 @@ import (
 	"github.com/percona-cs/cs0055422-tc-idr/internal/config"
 )
 
-// newRootCmd builds the cobra tree. Per CONSTITUTION P1 + SPEC §5.2, only
-// --config is registered as a flag; every verb is positional. The verbs
-// themselves take no flags — Cobra's persistent flag inheritance still
-// counts toward F-A3's "exactly one flag" assertion, so do not add any.
+// newRootCmd builds the cobra tree. Only --config is registered as a flag;
+// every verb is positional. The verbs themselves take no flags — Cobra's
+// persistent flag inheritance still counts toward the "exactly one flag"
+// requirement, so do not add any.
 func newRootCmd(commit, builtAt string) *cobra.Command {
 	var configPath string
 

@@ -7,7 +7,7 @@ import (
 
 func TestSecondaryKeysParsesAllElevenIndexes(t *testing.T) {
 	keys := SecondaryKeys()
-	// SPEC §4.2: the production byfile.files schema has 11 secondary
+	// The production byfile.files schema has 11 secondary
 	// indexes (team_id_2 through highlight_type_team_id).
 	if got, want := len(keys), 11; got != want {
 		names := make([]string, len(keys))

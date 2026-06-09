@@ -10,7 +10,7 @@ import (
 )
 
 // Dir is one run's artifact directory: <artifacts.dir>/<run-id>/. Holds the
-// provenance header, the JSON log, and the pid file (SPEC §3 criterion 7).
+// provenance header, the JSON log, and the pid file.
 type Dir struct {
 	Path  string
 	RunID string

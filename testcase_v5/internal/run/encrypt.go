@@ -5,10 +5,10 @@ import (
 	"fmt"
 )
 
-// encryptBlob is the v4 run.py contract: SHA-256(source || label-bytes),
+// encryptBlob is the v4 contract: SHA-256(source || label-bytes),
 // then repeat that 32-byte digest to match the source length (or 32 if the
 // source was empty). The "encryption" name matches the workload's vocabulary
-// — SPEC §4.3 fixes encryption.mode == "sha256".
+// — the config fixes encryption.mode == "sha256".
 func encryptBlob(source []byte, label string) []byte {
 	target := len(source)
 	if target == 0 {

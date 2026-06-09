@@ -13,7 +13,7 @@ import (
 
 // teamRowResult is the minimal scan-target we pull out of the SELECT — we
 // only need the three plaintext blobs + id + team_id + cursor field. The
-// remaining 37 columns are pulled to match v4 wire shape but discarded.
+// remaining 37 columns are pulled to match the v4 wire shape but discarded.
 type teamRowResult struct {
 	id                int64
 	teamID            int64
@@ -96,7 +96,7 @@ type teamSummary struct {
 	elapsed  time.Duration
 }
 
-// processTeam drives the SPEC §5.4 inner loop for one team. read and write
+// processTeam drives the inner loop for one team. read and write
 // are the shared pools; ctx cancellation aborts the loop between batches.
 // First batch logs EXPLAIN once and the per-batch timings once (then the
 // regular team_log_interval cadence takes over).

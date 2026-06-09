@@ -9,12 +9,12 @@ import (
 //go:embed embedded.sql
 var raw string
 
-// Table is the single table name this harness operates on (SPEC §2). It is
+// Table is the single table name this harness operates on. It is
 // derived from the embedded DDL once at package init so the rest of the
 // code can refer to schema.Table without re-parsing.
 var Table = parseTableName(raw)
 
-// CreateDDL returns the byte-identical v4 schema.sql contents (SPEC C8).
+// CreateDDL returns the byte-identical v4 schema.sql contents.
 func CreateDDL() string { return raw }
 
 // DropDDL returns the DROP statement complementing CreateDDL. Schema embeds

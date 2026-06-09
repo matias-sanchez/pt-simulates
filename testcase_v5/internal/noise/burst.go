@@ -8,7 +8,7 @@ import "time"
 //
 // The cycle is deterministic and stateless: given t, the multiplier is a
 // pure function of (t, BurstSeconds, IntervalSeconds, Multiplier). This is
-// the single-pass single-algorithm choice required by CONSTITUTION P2.
+// the single-pass single-algorithm choice the harness requires.
 type BurstSchedule struct {
 	Enabled         bool
 	Multiplier      float64
