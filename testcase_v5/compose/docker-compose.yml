@@ -6,7 +6,7 @@
 # Single-node setup: no actual master/replica replication is wired. The
 # config still uses two endpoints so the binary's read/write paths are
 # exercised — the integration smoke verifies init+run mechanics, not
-# replication behavior (which only matters on real slack-master/slack-replica).
+# replication behavior (which only matters on a real source/replica pair).
 
 services:
   mysql-master:

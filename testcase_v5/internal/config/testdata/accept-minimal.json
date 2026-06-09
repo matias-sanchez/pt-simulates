@@ -1,6 +1,6 @@
 {
   "remote": {
-    "remote_dir": "/mnt/vitess/testcase/tc_v5",
+    "remote_dir": "/opt/tc-idr",
     "logs_dir": "logs",
     "screen_sessions": {"init": "tc_idr_init", "run": "tc_idr_run"}
   },
@@ -15,10 +15,10 @@
       "socket": "/tmp/mysql.sock"
     },
     "read": {
-      "host": "10.0.11.210",
+      "host": "10.0.0.2",
       "port": 3306,
       "user": "tc_reader",
-      "password": "TcReader!2025",
+      "password": "REPLACE_ME",
       "schema": "byfile_tc",
       "table": "files",
       "socket": ""
